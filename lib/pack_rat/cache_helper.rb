@@ -9,6 +9,7 @@ module PackRat
       cattr_accessor :updated_attribute_name
       self.updated_attribute_name ||= :updated_at
       cattr_accessor :file_location
+      cattr_accessor :file_digest
       self.file_location = file_location_guesser
       self.file_digest ||= Digest::MD5.hexdigest(self.file_location) if self.file_location
     end
