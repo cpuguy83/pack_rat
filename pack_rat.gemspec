@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/pack_rat.rb",
+    "pack_rat.gemspec",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/cpuguy83/pack_rat"
