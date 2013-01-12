@@ -23,6 +23,12 @@ module PackRat
       def file_location=(path)
         @file_location = path
       end
+      def file_digest
+        @file_digest
+      end
+      def self.file_digest(digest)
+        @file_digest = digest
+      end
       # Create cache_key for class, use most recently updated record
       unless self.respond_to? :cache_key
         define_method :cache_key do
@@ -31,13 +37,14 @@ module PackRat
         end
       end
 
-      def file_digest
+      def generate_file_digest
         if self.file_location
-          #begin
+          begin
             file = File.read(self.file_location)
-            MD5::Digest.hexdigest(file)
-          #rescue
-          #end
+            self.file_digest = Digest::MD5.hexdigest(file)
+          rescue
+            nil
+          end
         end
       end
       
