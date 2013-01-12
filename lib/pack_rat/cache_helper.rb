@@ -45,7 +45,7 @@ module PackRat
             self.file_digest = Digest::MD5.hexdigest(file)
           #rescue
           #  nil
-          end
+          #end
         end
       end
       
