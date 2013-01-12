@@ -67,6 +67,7 @@ module PackRat
         super
       end
     end
+  end
 end
 if defined? ActiveRecord::Base
   ActiveRecord::Base.send(:include, PackRat::CacheHelper)
