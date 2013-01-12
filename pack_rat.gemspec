@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "pack_rat"
-  s.version = "0.1.3"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brian Goff"]
@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/pack_rat.rb",
+    "lib/pack_rat/active_record_extension.rb",
+    "lib/pack_rat/cache_helper.rb",
+    "lib/pack_rat/cache_helper/cacher.rb",
     "pack_rat.gemspec",
     "spec/spec_helper.rb"
   ]
