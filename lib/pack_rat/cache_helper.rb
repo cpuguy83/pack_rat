@@ -1,4 +1,4 @@
-require 'cache_helper/cacher'
+require 'pack_rat/cache_helper/cacher'
 module PackRat
   module CacheHelper
     extend ActiveSupport::Concern
