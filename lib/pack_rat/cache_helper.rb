@@ -6,15 +6,23 @@ module PackRat
     included do
       extend Cacher
       include Cacher
-      cattr_accessor :updated_attribute_name
       self.updated_attribute_name ||= :updated_at
-      cattr_accessor :file_location
-      cattr_accessor :file_digest
       self.file_location = file_location_guesser
-      self.file_digest ||= Digest::MD5.hexdigest(self.file_location) if self.file_location
     end
 
-    module ClassMethods    
+    module ClassMethods
+      def updated_attribute_name
+        @updated_attribute_name
+      end
+      def updated_attribute_name=(name)
+        @updated_attribute_name = name
+      end
+      def file_location
+        @file_location
+      end
+      def file_location=(path)
+        @file_location = path
+      end
       # Create cache_key for class, use most recently updated record
       unless self.respond_to? :cache_key
         define_method :cache_key do
@@ -23,16 +31,16 @@ module PackRat
         end
       end
 
-      #def file_digest
-      #  if self.file_location
-      #    begin
-      #      file = File.read(self.file_location)
-      #      @file_digst ||=
-      #    rescue
-      #      @file_digst = nil
-      #    end
-      #  end
-      #end
+      def file_digest
+        if self.file_location
+          begin
+            file = File.read(self.file_location)
+            @file_digst ||= MD5::Digest.hexdigest(file)
+          rescue
+            @file_digst = nil
+          end
+        end
+      end
       
       def file_location_guesser
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails

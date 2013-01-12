@@ -4,6 +4,3 @@ require 'pack_rat/cache_helper'
 if defined? ActiveRecord::Base
   ActiveRecord::Base.send(:include, PackRat::ActiveRecordExtension)
 end
-  
-  
-  
