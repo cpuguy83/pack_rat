@@ -8,7 +8,6 @@ module PackRat
       include Cacher
       self.updated_attribute_name ||= :updated_at
       self.file_location = file_location_guesser
-      generate_file_digest
     end
 
     module ClassMethods
@@ -23,21 +22,15 @@ module PackRat
       end
       def file_location=(path)
         @file_location = path
+        generate_file_digest
       end
       def file_digest
         @file_digest
       end
-      def self.file_digest(digest)
+      def file_digest=(digest)
         @file_digest = digest
       end
-      # Create cache_key for class, use most recently updated record
-      unless self.respond_to? :cache_key
-        define_method :cache_key do
-          key = order("#{self.updated_attribute_name} DESC").first.cache_key if self.superclass.to_s == "ActiveRecord::Base"
-          key << "/#{self.to_s}"
-        end
-      end
-
+      
       def generate_file_digest
         if self.file_location
           #begin
@@ -51,6 +44,13 @@ module PackRat
       
       def file_location_guesser
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
+      end
+      # Create cache_key for class, use most recently updated record
+      unless self.respond_to? :cache_key
+        define_method :cache_key do
+          key = order("#{self.updated_attribute_name} DESC").first.cache_key if self.superclass.to_s == "ActiveRecord::Base"
+          key << "/#{self.to_s}"
+        end
       end
   
     end
