@@ -9,7 +9,7 @@ module PackRat
       self.updated_attribute_name ||= :updated_at
       cattr_accessor :file_location
       cattr_accessor :file_digest
-      self.file_location ||= "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
+      self.file_location ||= "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails && self.class != ActiveRecord::Base
       self.file_digest ||= Digest::MD5.hexdigest(File.read(self.file_location)) if self.file_location
     end
 
