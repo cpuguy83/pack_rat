@@ -9,13 +9,12 @@ rescue Bundler::BundlerError => e
 end
 require 'rspec'
 require 'rspec/autorun'
-#require 'shoulda'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'pack_rat'
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -23,10 +22,19 @@ end
 
 class TestClass
   include PackRat::CacheHelper
-  def some_method
+  self.file_location = '/dev/null'
+  def some_method_with_cache
     cache do
       puts 'test'
     end
+  end
+  
+  def some_method_without_cache
+    puts 'test'
+  end
+
+  def cache_key
+    'stuff'
   end
 end
 
