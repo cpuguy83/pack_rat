@@ -33,12 +33,12 @@ module PackRat
       
       def generate_file_digest
         if self.file_location
-          #begin
+          begin
             file = File.read(self.file_location)
             self.file_digest = Digest::MD5.hexdigest(file)
-          #rescue
-          #  nil
-          #end
+          rescue
+            self.file_digest = nil
+          end
         end
       end
       
