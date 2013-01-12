@@ -35,7 +35,7 @@ module PackRat
         if self.file_location
           begin
             file = File.read(self.file_location)
-            @file_digst ||= MD5::Digest.hexdigest(file)
+            return MD5::Digest.hexdigest(file)
           rescue
             @file_digst = nil
           end
