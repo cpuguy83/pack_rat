@@ -8,9 +8,7 @@ module PackRat
       cattr_accessor :updated_attribute_name
       self.updated_attribute_name ||= :updated_at
       cattr_accessor :file_location
-      cattr_accessor :file_digest
-      self.file_location ||= "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
-      self.file_digest ||= Digest::MD5.hexdigest(File.read(self.file_location)) if self.file_location && self.file_location !~ /active_record\/base\.rb/
+      self.file_location = "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
     end
 
     module Cacher
@@ -37,7 +35,23 @@ module PackRat
           key << "/#{self.to_s}"
         end
       end
+      
+      def file_digest
+        if self.file_location
+          begin
+            file = File.read(self.file_location)
+            Digest::MD5.hexdigest(file)
+          rescue
+            nil
+          end
+        end
+      end
+  
     end
   end
 end
+
 ActiveRecord::Base.send(:include, PackRat::CacheHelper) if defined? ActiveRecord::Base
+  
+  
+  
