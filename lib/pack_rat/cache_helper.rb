@@ -10,6 +10,7 @@ module PackRat
       self.updated_attribute_name ||= :updated_at
       cattr_accessor :file_location
       self.file_location = file_location_guesser
+      self.file_digest ||= Digest::MD5.hexdigest(self.file_location) if self.file_location
     end
 
     module ClassMethods    
@@ -20,17 +21,17 @@ module PackRat
           key << "/#{self.to_s}"
         end
       end
-      
-      def file_digest
-        if self.file_location
-          begin
-            file = File.read(self.file_location)
-            Digest::MD5.hexdigest(file)
-          rescue
-            nil
-          end
-        end
-      end
+
+      #def file_digest
+      #  if self.file_location
+      #    begin
+      #      file = File.read(self.file_location)
+      #      @file_digst ||=
+      #    rescue
+      #      @file_digst = nil
+      #    end
+      #  end
+      #end
       
       def file_location_guesser
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
