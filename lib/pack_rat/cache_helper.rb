@@ -49,7 +49,7 @@ module PackRat
       unless self.respond_to? :cache_key
         define_method :cache_key do
           key = order("#{self.updated_attribute_name} DESC").first.cache_key if self.superclass.to_s == "ActiveRecord::Base"
-          key << "/#{self.to_s}"
+          key << "/#{self.to_s}" if key
         end
       end
   
