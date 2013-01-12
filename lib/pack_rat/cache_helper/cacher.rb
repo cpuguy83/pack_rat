@@ -13,7 +13,9 @@ module PackRat
           end
         end
         puts key if options[:debug]
-        filtered_options = options.except(:overwrite_key, :debug)
+        filtered_options = options.dup
+        filtered_options.delete(:debug)
+        filtered_options.delete(:overwrite_key)
         Rails.cache.fetch key, filtered_options do
           block.call
         end
