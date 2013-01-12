@@ -8,7 +8,7 @@ module PackRat
       cattr_accessor :updated_attribute_name
       self.updated_attribute_name ||= :updated_at
       cattr_accessor :file_location
-      self.file_location = "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
+      self.file_location = file_location_builder
     end
 
     module Cacher
@@ -46,12 +46,31 @@ module PackRat
           end
         end
       end
+      
+      def file_location_builder
+        "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
+      end
   
     end
   end
+  
+  module ActiveRecordResetFileLocation
+    def included(base)
+      base.extend(ClassMethods)
+    end
+    
+    def ClassMethods
+      def inherited(child_class)
+        child_class.class_eval do
+          self.file_location = file_location_builder
+        end
+      end
+    end
 end
-
-ActiveRecord::Base.send(:include, PackRat::CacheHelper) if defined? ActiveRecord::Base
+if defined? ActiveRecord::Base
+  ActiveRecord::Base.send(:include, PackRat::CacheHelper)
+  ActiveRecord::Base.send(:extend, PackRat::ActiveRecordResetFileLocation)
+end
   
   
   
