@@ -64,6 +64,7 @@ module PackRat
         child_class.class_eval do
           self.file_location = file_location_builder
         end
+        super
       end
     end
 end
