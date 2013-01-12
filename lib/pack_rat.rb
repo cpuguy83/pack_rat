@@ -10,7 +10,7 @@ module PackRat
       cattr_accessor :file_location
       cattr_accessor :file_digest
       self.file_location ||= "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
-      self.file_digest ||= Digest::MD5.hexdigest(File.read(self.file_location)) if self.file_location && self.class != ActiveRecord::Base
+      self.file_digest ||= Digest::MD5.hexdigest(File.read(self.file_location)) if self.file_location && self.file_location !~ /active_record\/base\.rb/
     end
 
     module Cacher
