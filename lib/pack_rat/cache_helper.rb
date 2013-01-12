@@ -8,6 +8,7 @@ module PackRat
       include Cacher
       self.updated_attribute_name ||= :updated_at
       self.file_location = file_location_guesser
+      generate_file_digest
     end
 
     module ClassMethods
@@ -39,11 +40,11 @@ module PackRat
 
       def generate_file_digest
         if self.file_location
-          begin
+          #begin
             file = File.read(self.file_location)
             self.file_digest = Digest::MD5.hexdigest(file)
-          rescue
-            nil
+          #rescue
+          #  nil
           end
         end
       end
