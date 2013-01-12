@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "pack_rat"
   gem.homepage = "http://github.com/cpuguy83/pack_rat"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Rails cache helper}
+  gem.description = %Q{Helper method to simplify Rails caching, do Russian-doll caching outside your views}
   gem.email = "cpuguy83@gmail.com"
   gem.authors = ["Brian Goff"]
   # dependencies defined in Gemfile
@@ -30,14 +30,6 @@ Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
-end
-
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
 end
 
 task :default => :test
