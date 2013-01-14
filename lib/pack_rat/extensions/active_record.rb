@@ -16,6 +16,8 @@ module PackRat
   end
 end
 
-ActiveSupport.on_load :active_record do
-  include PackRat::Extensions::ActiveRecord
+if defined? ActiveRecord::Base
+#ActiveSupport.on_load :active_record do
+  ActiveRecord::Base.send(:include, PackRat::Extensions::ActiveRecord)
+#  include PackRat::Extensions::ActiveRecord
 end
