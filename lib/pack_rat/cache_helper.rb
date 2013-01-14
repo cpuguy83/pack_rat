@@ -55,7 +55,7 @@ module PackRat
       # Uses Rails conventions to determine location of the defined class
       def file_location_guesser
         # This needs to be refactored to take a prefix to replace the rails/app/models
-        # AR Extension would be default include a prefix that this picks up
+        # AR Extension would be then include a prefix that this picks up
         # Haven't decided on a clean way to implement this
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
       end
