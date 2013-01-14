@@ -7,13 +7,11 @@ module PackRat
       # Include and Extend so cache method is available in all contexts
       extend Cacher
       include Cacher
+      self.file_location = file_location_guesser
+      self.updated_attribute_name = :updated_at
     end
 
     module ClassMethods
-      def extended(base)
-        base.send(:file_location=, file_location_guesser)
-        base.send(:updated_attribute_name=, :updated_at) unless base.updated_attribute_name
-      end
 
       # Instance attribute name that stores the last time the object was updated, usually :updated_at
       def updated_attribute_name
