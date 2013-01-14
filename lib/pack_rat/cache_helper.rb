@@ -6,11 +6,14 @@ module PackRat
     included do
       extend Cacher
       include Cacher
-      self.updated_attribute_name ||= :updated_at
-      self.file_location = file_location_guesser
     end
 
     module ClassMethods
+      def extended(base)
+        base.send(:file_location=, file_location_guesser)
+        base.send(:updated_attribute_name=, :updated_at) unless base.updated_attribute_name
+      end
+
       def updated_attribute_name
         @updated_attribute_name
       end
@@ -31,6 +34,7 @@ module PackRat
         @file_digest = digest
       end
       
+      # Creates MD5 Digest of the set file_location attribute
       def generate_file_digest
         if self.file_location
           begin
@@ -42,9 +46,11 @@ module PackRat
         end
       end
       
+      # Uses Rails conventions to determine location of the defined class
       def file_location_guesser
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
       end
+
       # Create cache_key for class, use most recently updated record
       unless self.respond_to? :cache_key
         define_method :cache_key do
