@@ -23,14 +23,15 @@ end
 class TestClass
   include PackRat::CacheHelper
   self.file_location = '/dev/null'
+  @test_string = 'testing'
   def some_method_with_cache
     cache do
-      puts 'test'
+      @test_string
     end
   end
   
   def some_method_without_cache
-    puts 'test'
+    @test_string
   end
 
   def cache_key

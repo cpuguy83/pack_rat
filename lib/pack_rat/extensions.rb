@@ -1,0 +1,1 @@
+require 'pack_rat/extensions/active_record'
