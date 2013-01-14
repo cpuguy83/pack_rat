@@ -1,23 +1,20 @@
 module PackRat
   module Extensions
     module ActiveRecord
-      def included(base)
-        base.extend(ClassMethods)
+      def inherited(child_class)
+        child_class.send(:include, PackRat::CacheHelper)
+        super
       end
-  
-      module ClassMethods
-        def inherited(child_class)
-          child_class.send(:include, PackRat::CacheHelper)
-          super
-        end
-      end
-
     end
   end
 end
 
-if defined? ActiveRecord::Base
-#ActiveSupport.on_load :active_record do
-  ActiveRecord::Base.send(:include, PackRat::Extensions::ActiveRecord)
-#  include PackRat::Extensions::ActiveRecord
+# Lazy load AR Extension into AR if ActiveSupport is there
+if defined? ActiveSupport
+  ActiveSupport.on_load :active_record do
+    extend PackRat::Extensions::ActiveRecord
+  end
+else
+  # Load immediately if no ActiveSupport loaded
+  ActiveRecord::Base.send(:extend, PackRat::Extensions::ActiveRecord) if defined? ActiveRecord::Base
 end
