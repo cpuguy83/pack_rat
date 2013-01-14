@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brian Goff"]
-  s.date = "2013-01-12"
+  s.date = "2013-01-14"
   s.description = "Helper method to simplify Rails caching, do Russian-doll caching outside your views"
   s.email = "cpuguy83@gmail.com"
   s.extra_rdoc_files = [
@@ -25,9 +25,10 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/pack_rat.rb",
-    "lib/pack_rat/active_record_extension.rb",
     "lib/pack_rat/cache_helper.rb",
     "lib/pack_rat/cache_helper/cacher.rb",
+    "lib/pack_rat/extensions.rb",
+    "lib/pack_rat/extensions/active_record.rb",
     "pack_rat.gemspec",
     "spec/models/test_class_spec.rb",
     "spec/spec_helper.rb"
