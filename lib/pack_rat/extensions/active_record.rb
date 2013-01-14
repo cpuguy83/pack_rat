@@ -1,6 +1,8 @@
 module PackRat
   module Extensions
     module ActiveRecord
+      
+      # When AR::Base is inherited, incude PackRat into inheriting class
       def inherited(child_class)
         child_class.send(:include, PackRat::CacheHelper)
         super

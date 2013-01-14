@@ -4,6 +4,7 @@ module PackRat
     extend ActiveSupport::Concern
 
     included do
+      # Include and Extend so cache method is available in all contexts
       extend Cacher
       include Cacher
     end
@@ -14,12 +15,15 @@ module PackRat
         base.send(:updated_attribute_name=, :updated_at) unless base.updated_attribute_name
       end
 
+      # Instance attribute name that stores the last time the object was updated, usually :updated_at
       def updated_attribute_name
         @updated_attribute_name
       end
       def updated_attribute_name=(name)
         @updated_attribute_name = name
       end
+      
+      # File path of the class
       def file_location
         @file_location
       end
@@ -27,6 +31,8 @@ module PackRat
         @file_location = path
         generate_file_digest
       end
+      
+      # Stores the MD5 Digest of the class
       def file_digest
         @file_digest
       end
@@ -48,6 +54,9 @@ module PackRat
       
       # Uses Rails conventions to determine location of the defined class
       def file_location_guesser
+        # This needs to be refactored to take a prefix to replace the rails/app/models
+        # AR Extension would be default include a prefix that this picks up
+        # Haven't decided on a clean way to implement this
         "#{Rails.root}/app/models/#{self.to_s.split('::').join('/').underscore.downcase}.rb" if defined? Rails
       end
 
